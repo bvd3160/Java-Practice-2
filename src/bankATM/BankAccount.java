@@ -2,7 +2,6 @@ package bankATM;
 
 import java.util.Scanner;
 
-
 public class BankAccount{
 	
 	private Scanner userInput;
