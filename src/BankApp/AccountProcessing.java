@@ -1,33 +1,21 @@
-package bankATM;
+package BankApp;
 
 import java.util.Scanner;
 
-public class BankAccount{
+public class AccountProcessing extends User{
 	
-	private Scanner userInput;
 	private String bankName;
-	private String custName;
 	private int accountId;
 	private int accountPin;
 	private double accountBalance;
+	public static User user;
 
-	public BankAccount(String bankName, String custName, int accountId, int accountPin) {
-		this.bankName = bankName;
-		this.custName = custName;
-		this.accountId = accountId;
-		this.accountPin = accountPin;
-		userInput = new Scanner(System.in);
-		
-		/*
-		 * 
-		setBankName("Jean's Bank");
-		setCustName("Jeanelle");
-		setAccountId(123);
-		setAccountPin(123);
+	public AccountProcessing(int accountId, User user) {
+		super(userId, usersName, userPin);
+		setBankName("Jean's BANK");
 		setAccountBalance(1000.00);
-		*
-		*/
-		
+		this.user = user;
+		this.accountId = accountId;	
 	}
 
 	public String getBankName() {
@@ -36,14 +24,6 @@ public class BankAccount{
 
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
-	}
-	
-	public String getCustName() {
-		return custName;
-	}
-	
-	public void setCustName(String custName) {
-		this.custName = custName;
 	}
 
 	public int getAccountId() {
@@ -71,22 +51,30 @@ public class BankAccount{
 	}
 
 	public void displayAccountInfo() {
+		Scanner userInput = new Scanner(System.in);
+		
 		System.out.println("========================");
 		System.out.println("======"+getBankName());
 		System.out.println("========================");
-		System.out.println("Customer Name: "+getCustName());
+		System.out.println("Customer Name: "+user.getUsersName());
 		System.out.println("========================");
 		System.out.println("Amount Balance: "+getAccountBalance());
 		System.out.println("======================== \n \n");
-		System.out.println("WHAT WOULD YOU LIKE TO DO?");
-		System.out.println("A: Withdraw Cash \nB: Deposit Cash \nC: Transfer Money \n");
+		System.out.println("WHAT WOULD YOU LIKE TO DO? \n \n");
+		System.out.println("A: Withdraw Cash \nB: Deposit Cash \nC: Transfer Money \nE: Exit\n");
+		System.out.println("======================== \n");
 		
-		if(userInput.next().toLowerCase().equals("a")) {
+		String input = userInput.next().toLowerCase();
+		
+		if(input.equals("a")) {
 			
-		}else if(userInput.next().toLowerCase().equals("b")) {
+		}else if(input.equals("b")) {
 			
-		}else if(userInput.next().toLowerCase().equals("c")) {
+		}else if(input.equals("c")) {
 			
+		}else if(input.equals("e")) {
+			System.out.println("Thank you for using Jean's ATM. See you soon!");
+			System.exit(0);
 		}else {
 			System.out.println("That's not one of the options. Goodbye!");
 		}

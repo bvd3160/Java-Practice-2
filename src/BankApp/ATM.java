@@ -1,12 +1,14 @@
-package bankATM;
+package BankApp;
 
 import java.util.Scanner;
 
 
 public class ATM {
 	
-	private static BankAccount account;
+	private static User user;
+	private static AccountProcessing account;
 	private static Card card;
+	private static ATM myAtm;
 
 	//ATM needs a card to start interactions
 	public ATM(Card card) {
@@ -26,13 +28,16 @@ public class ATM {
 		System.out.println("Great! So what's your Pin?");
 		int cPin = userInput.nextInt();
 		
-		//ATM personalAtm =  new ATM(new Card(cName, null, cid, cPin));
-		account = new BankAccount("Jill's Bank", cName, 123, 123);
-		account.setAccountBalance(100.0);
+		//create a new user
+		user = new User(cid, cName, cPin);
+		//create a new account
+		account = new AccountProcessing(cid, user);
+		//create a new card
 		card = new Card(account.getBankName(), account.getAccountId(), account.getAccountPin());
-		ATM myAtm = new ATM(card);
+		//create a new ATM
+		myAtm = new ATM(card);
 		
-		if(myAtm.card.getAccountId() == cid  && myAtm.card.getAccountPin() == cPin) {
+		if(user.getUserId() == cid  && user.getUserPin() == cPin) {
 			account.displayAccountInfo();
 		}else {
 			System.out.println("Sorry your accountID and Pin didn't match. Here is your card back");
