@@ -1,4 +1,4 @@
-package javaPractice2;
+package fundamentals;
 
 public class UprightTrianglePattern {
 

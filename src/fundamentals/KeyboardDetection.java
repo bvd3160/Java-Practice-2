@@ -1,4 +1,4 @@
-package javaPractice2;
+package fundamentals;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

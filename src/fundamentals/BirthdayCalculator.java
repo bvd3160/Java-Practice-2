@@ -1,4 +1,4 @@
-package javaPractice2;
+package fundamentals;
 
 import java.time.LocalDate;
 import java.time.Period;
