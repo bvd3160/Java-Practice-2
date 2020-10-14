@@ -16,6 +16,7 @@ public class TicTacToe {
             {' ', '|', ' ', '|', ' '}};
 	
 	private static ArrayList<String> players = new ArrayList<String>();
+	private static ArrayList<Integer> movesPlayed = new ArrayList<>();
 
 	public static void main(String[] args) {
 		//Building the Tic-Tac-Toe board
@@ -43,26 +44,35 @@ public class TicTacToe {
 				System.out.println("Please enter a position " + player);
 				int pPosition = userInput.nextInt();
 				//check that position isn't taken and if so, get player to select another//
+				while(movesPlayed.contains(pPosition)) {
+					System.out.println("Sorry that position is has already been played! Pick another");
+					userInput = new Scanner(System.in);
+					pPosition = userInput.nextInt();
+				}
+				//Add played position in list once found not to be there already
+				movesPlayed.add(pPosition);
 				
 				placePiece(playingField, pPosition, "player");
 				//Player should now be set to cpu next for next time
-				player = "cpu";
+				player = players.get(0).toString();
 				loadGameboard(playingField);
-				//checkWinner - break out of loop if Player won
-				//checkWinner();
 				
 				
 			}else if(player.equals("cpu") && !isGameTied(playingField)){
 				int cPosition = new Random().nextInt(9)+1;
-				//need to check that position isn't taken before placing piece or generate another//
+				//need to check that position isn't taken before placing piece or generate another
+				while(movesPlayed.contains(cPosition)) {
+					System.out.println("CPU played: "+cPosition+" but it was taken!");
+					cPosition = new Random().nextInt(9)+1;
+				}
+				//Add played position in list once found not to be there already
+				movesPlayed.add(cPosition);
 				
 				System.out.println(player + " played: " + cPosition);
 				placePiece(playingField, cPosition, player);
 				//Player should now be set to player next for next time
-				player = "player";
+				player = players.get(1).toString();
 				loadGameboard(playingField);
-				//checkWinner - break out of loop if CPU won
-				//checkWinner();
 				
 			}else
 				System.out.println("No Winner Found!");
@@ -70,12 +80,23 @@ public class TicTacToe {
 		}
 	}
 	
+	private static boolean isWinnerFound(char [][] board) {
+		boolean winnerFound = false;
+		//arraylist containing all played positions will be traversed for all possible winning combination for either player or cpu
+		
+		return winnerFound;
+	}
+	
 	private static boolean isGameTied(char [][] board) {
 		boolean isTied = false;
+		//need to note down each position played - arralist
+		
+		//ONLY if board is full && !winnerFound (if arraylist has 9)
+			//return true -- meaning game is tied
+		
 		
 		return isTied;
 	}
-	
 	
 
 	/**
@@ -83,11 +104,19 @@ public class TicTacToe {
 	 * @param board: the board being drawn
 	 */
 	private static void loadGameboard(char [][] board) {
+		System.out.println("");
 		System.out.println("===== TicTacToe =====");
+		System.out.println("");
+		System.out.println("CPU = X");
+		System.out.println("YOU = O");
+		System.out.println("");
+		System.out.println("To play use No.s [1 - 9]");
+		System.out.println("");
 		for (char[] cs : board) {
 			System.out.print(cs);
 			System.out.print("\n");
 		}
+		System.out.println("");
 		System.out.println("== by: Jean-Yves.K == \n"
 				+ "----------------------------------------- \n");
 	}
@@ -100,7 +129,6 @@ public class TicTacToe {
 	 * @param player: which player's turn it is
 	 */
 	public static void placePiece(char[][] playingField, int pos, String player) {
-		int position = 1;
 		char playerSymbol = 'Y';
 		
 		if(player.equals("player")) {
@@ -108,7 +136,6 @@ public class TicTacToe {
 		}else if(player.equals("cpu")) {
 			playerSymbol = 'X';
 		}		
-		
 		switch (pos) {
 		case 1: 
 			playingField[0][0] = playerSymbol;
@@ -135,9 +162,5 @@ public class TicTacToe {
 		default:
 			break;
 		}
-		
 	}
-	
-	
-
 }
