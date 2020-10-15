@@ -18,33 +18,29 @@ public class TicTacToe {
 	private static ArrayList<String> players = new ArrayList<String>();
 	private static ArrayList<Integer> movesPlayed = new ArrayList<>();
 
-	public static void main(String[] args) {
-		//Building the Tic-Tac-Toe board
-		loadGameboard(playingField);
-		
+	public static void main(String[] args) {		
 		//set players of the game
 		players.add("cpu");
 		players.add("player");
-		
-		playGame();
-		
+		loadGameboard(playingField);
+		playGame(playingField);
 	}
 	
 	
 	/**
 	 * playGame(): all game logic resides here
 	 */
-	public static void playGame() {
+	public static void playGame(char [][] board) {
 		//get a random player to start the game
 		String player = players.get(new Random().nextInt(2));
 		//need to run game continuously until a winner is found
-		while(true) {
-			if(player.equals("player") && !isGameTied(playingField)) {
+		while(!isGameTied(board) && !isWinnerFound(board)) {
+			if(player.equals("player")) {
 				Scanner userInput = new Scanner(System.in); 
 				System.out.println("Please enter a position " + player);
 				int pPosition = userInput.nextInt();
 				//check that position isn't taken and if so, get player to select another//
-				while(movesPlayed.contains(pPosition)) {
+				while(movesPlayed.contains(pPosition) && isPosValid(pPosition, player)) {
 					System.out.println("Sorry that position is has already been played! Pick another");
 					userInput = new Scanner(System.in);
 					pPosition = userInput.nextInt();
@@ -52,13 +48,11 @@ public class TicTacToe {
 				//Add played position in list once found not to be there already
 				movesPlayed.add(pPosition);
 				
-				placePiece(playingField, pPosition, "player");
+				placePiece(board, pPosition, "player");
 				//Player should now be set to cpu next for next time
 				player = players.get(0).toString();
-				loadGameboard(playingField);
-				
-				
-			}else if(player.equals("cpu") && !isGameTied(playingField)){
+				loadGameboard(board);				
+			}else if(player.equals("cpu")){
 				int cPosition = new Random().nextInt(9)+1;
 				//need to check that position isn't taken before placing piece or generate another
 				while(movesPlayed.contains(cPosition)) {
@@ -69,31 +63,78 @@ public class TicTacToe {
 				movesPlayed.add(cPosition);
 				
 				System.out.println(player + " played: " + cPosition);
-				placePiece(playingField, cPosition, player);
+				placePiece(board, cPosition, player);
 				//Player should now be set to player next for next time
 				player = players.get(1).toString();
-				loadGameboard(playingField);
-				
-			}else
-				System.out.println("No Winner Found!");
-				//break;
+				loadGameboard(board);		
+			}
 		}
 	}
 	
+	//check that the position played is valid
+	private static boolean isPosValid(int pos, String player) {
+		boolean valid = false;
+		if(pos >= 1 && pos <= 9) {
+			valid = true;
+		}else {
+			System.out.println("Position "+pos+" made by "+player+" is invalid! ");
+		}
+		return valid;
+	}
+
+
 	private static boolean isWinnerFound(char [][] board) {
 		boolean winnerFound = false;
-		//arraylist containing all played positions will be traversed for all possible winning combination for either player or cpu
+		char playerSymbol = 'O';
+		char cpuSymbol = 'X';
+		
+		//NOT THE MOST ELEGANT WAY OF DOING THIS - I ADMIT ^_^
+		
+		//Lets Start with CPU winning
+		if(board[0][0] == cpuSymbol && board[0][2] == cpuSymbol && board[0][4] == cpuSymbol) {
+			winnerFound = true;
+			System.out.println("CPU Won - on row 1");
+		}else if(board[2][0] == cpuSymbol && board[2][2] == cpuSymbol && board[2][4] == cpuSymbol) {
+			winnerFound = true;
+			System.out.println("CPU Won - on row 2");
+		}else if(board[4][0] == cpuSymbol && board[4][2] == cpuSymbol && board[4][4] == cpuSymbol) {
+			winnerFound = true;
+			System.out.println("CPU Won - on row 3");
+		}else if(board[0][0] == cpuSymbol && board[2][2] == cpuSymbol && board[4][4] == cpuSymbol) {
+			winnerFound = true;
+			System.out.println("CPU Won - diagonally 1");
+		}else if(board[4][0] == cpuSymbol && board[2][2] == cpuSymbol && board[0][4] == cpuSymbol) {
+			winnerFound = true;
+			System.out.println("CPU Won - diagonally 2");
+		}
+		
+		//Now for player
+		if(board[0][0] == playerSymbol && board[0][2] == playerSymbol && board[0][4] == playerSymbol) {
+			winnerFound = true;
+			System.out.println("YOU Won - on row 1");
+		}else if(board[2][0] == playerSymbol && board[2][2] == playerSymbol && board[2][4] == playerSymbol) {
+			winnerFound = true;
+			System.out.println("YOU Won - on row 2");
+		}else if(board[4][0] == playerSymbol && board[4][2] == playerSymbol && board[4][4] == playerSymbol) {
+			winnerFound = true;
+			System.out.println("YOU Won - on row 3");
+		}else if(board[0][0] == playerSymbol && board[2][2] == playerSymbol && board[4][4] == playerSymbol) {
+			winnerFound = true;
+			System.out.println("YOU Won - diagonally 1");
+		}else if(board[4][0] == playerSymbol && board[2][2] == playerSymbol && board[0][4] == playerSymbol) {
+			winnerFound = true;
+			System.out.println("YOU Won - diagonally 2");
+		}
 		
 		return winnerFound;
 	}
 	
 	private static boolean isGameTied(char [][] board) {
 		boolean isTied = false;
-		//need to note down each position played - arralist
-		
-		//ONLY if board is full && !winnerFound (if arraylist has 9)
-			//return true -- meaning game is tied
-		
+		if(movesPlayed.size() == 9 && !isWinnerFound(board)) {
+			isTied = true;
+			System.out.println("THE GAME IS TIED! v_v");
+		}
 		
 		return isTied;
 	}
@@ -128,7 +169,7 @@ public class TicTacToe {
 	 * @param pos: the position of move being played
 	 * @param player: which player's turn it is
 	 */
-	public static void placePiece(char[][] playingField, int pos, String player) {
+	public static void placePiece(char[][] board, int pos, String player) {
 		char playerSymbol = 'Y';
 		
 		if(player.equals("player")) {
@@ -138,28 +179,35 @@ public class TicTacToe {
 		}		
 		switch (pos) {
 		case 1: 
-			playingField[0][0] = playerSymbol;
+			board[0][0] = playerSymbol;
 			break;
 		case 2:
-			playingField[0][2] = playerSymbol;
+			board[0][2] = playerSymbol;
+			break;
 		case 3: 
-			playingField[0][4] = playerSymbol;
+			board[0][4] = playerSymbol;
 			break;
 		case 4:
-			playingField[2][0] = playerSymbol;
+			board[2][0] = playerSymbol;
+			break;
 		case 5: 
-			playingField[2][2] = playerSymbol;
+			board[2][2] = playerSymbol;
 			break;
 		case 6:
-			playingField[2][4] = playerSymbol;
+			board[2][4] = playerSymbol;
+			break;
 		case 7: 
-			playingField[4][0] = playerSymbol;
+			board[4][0] = playerSymbol;
 			break;
 		case 8:
-			playingField[4][2] = playerSymbol;
+			board[4][2] = playerSymbol;
+			break;
 		case 9:
-			playingField[4][4] = playerSymbol;
+			board[4][4] = playerSymbol;
+			break;
 		default:
+			isPosValid(pos, player);
+			movesPlayed.remove(movesPlayed.size()-1);
 			break;
 		}
 	}
