@@ -100,7 +100,16 @@ public class TicTacToe {
 		}else if(board[4][0] == cpuSymbol && board[4][2] == cpuSymbol && board[4][4] == cpuSymbol) {
 			winnerFound = true;
 			System.out.println("CPU Won - on row 3");
-		}else if(board[0][0] == cpuSymbol && board[2][2] == cpuSymbol && board[4][4] == cpuSymbol) {
+		}else if(board[4][0] == cpuSymbol && board[4][2] == cpuSymbol && board[4][4] == cpuSymbol) {
+			winnerFound = true;
+			System.out.println("CPU Won - on column 1");
+		}else if(board[0][0] == cpuSymbol && board[2][0] == cpuSymbol && board[4][0] == cpuSymbol) {
+			winnerFound = true;
+			System.out.println("CPU Won - on column 2");
+		}else if(board[0][2] == cpuSymbol && board[2][2] == cpuSymbol && board[4][2] == cpuSymbol) {
+			winnerFound = true;
+			System.out.println("CPU Won - on column 3");
+		}else if(board[0][4] == cpuSymbol && board[2][4] == cpuSymbol && board[4][4] == cpuSymbol) {
 			winnerFound = true;
 			System.out.println("CPU Won - diagonally 1");
 		}else if(board[4][0] == cpuSymbol && board[2][2] == cpuSymbol && board[0][4] == cpuSymbol) {
@@ -121,6 +130,15 @@ public class TicTacToe {
 		}else if(board[0][0] == playerSymbol && board[2][2] == playerSymbol && board[4][4] == playerSymbol) {
 			winnerFound = true;
 			System.out.println("YOU Won - diagonally 1");
+		}else if(board[4][0] == playerSymbol && board[4][2] == playerSymbol && board[4][4] == playerSymbol) {
+			winnerFound = true;
+			System.out.println("YOU Won - on column 1");
+		}else if(board[0][0] == playerSymbol && board[2][0] == playerSymbol && board[4][0] == playerSymbol) {
+			winnerFound = true;
+			System.out.println("YOU Won - on column 2");
+		}else if(board[0][2] == playerSymbol && board[2][2] == playerSymbol && board[4][2] == playerSymbol) {
+			winnerFound = true;
+			System.out.println("YOU Won - on column 3");
 		}else if(board[4][0] == playerSymbol && board[2][2] == playerSymbol && board[0][4] == playerSymbol) {
 			winnerFound = true;
 			System.out.println("YOU Won - diagonally 2");
