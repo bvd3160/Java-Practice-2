@@ -1,4 +1,4 @@
-package ticTacToe;
+package games;
 
 import java.util.ArrayList;
 import java.util.Random;
